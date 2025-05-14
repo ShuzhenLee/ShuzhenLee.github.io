@@ -1,0 +1,35 @@
+{{ block title }}
+    Payoff for the Main study
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+
+<br>
+{% if invest_payoff == player.payoff_new_chance %}
+    <p>Your payoff is based on the cumulative return from <i>Stage 3</i>,
+        where you are given a new opportunity to make an allocation decision.
+    </p>
+    <p>
+        The donation to the environmental organization you preferred is: <strong>{{ part4_donation }} ECUs</strong>.
+    </p>
+{% elif invest_payoff == part3_invest_payoff %}
+    <p>Your payoff is calculated based on the cumulative return from <i>Stage 2</i>,
+        where you made a series of allocation decisions.
+    </p>
+    <p>
+        The donation to the environmental organization you preferred is: <strong>{{ part3_donation }} ECUs</strong>.
+    </p>
+{% endif %}
+
+
+<p>
+    Your total payment so far is: <strong>{{ invest_payoff }} ECUs</strong>.
+</p>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" > Next </button></center>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

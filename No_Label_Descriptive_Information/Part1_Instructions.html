@@ -1,0 +1,31 @@
+{{ block title }}
+    Instruction
+{{ endblock }}
+
+{{ block content }}
+<p>
+    Now the market is about to start.
+    However, instead of investing your money for real, we would like you to review the performance of two funds over a series of periods first.
+
+    In Stage 1, you will now examine the performance of the two funds over a new set of <b>45 periods</b>,
+    which are separate from the first 10 periods you previously observed.
+</p>
+<p>
+    The data will be presented in charts and tables, appearing one by one.
+    After reviewing each chart or table, click "Next Page" to proceed.
+    If you wish to revisit a previous page, click "Previous Page".
+</p>
+<p>
+    Now, please click "Next Page" to start.
+</p>
+
+<br>
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" > Next Page </button></center>
+
+
+
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

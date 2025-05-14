@@ -1,0 +1,43 @@
+{{ block title }}
+    Instruction
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    You will be presented with real historical data about the performance of two funds <u>over 45 periods</u>.
+    The details of the funds are as follows:
+</p>
+<div class="add-a-frame">
+    <b>Conventional Fund</b>:
+    <p style="text-indent: 30px;">
+        This fund offers exposure to the largest U.S. companies, providing a portfolio that spans multiple sectors and industries.
+        It is designed for investors who prioritize broad market performance and efficiency at a low cost.
+        <b>It does NOT exclude equities which operate in controversial industries such as fossil fuel, tobacco, and weapons</b>.
+    </p>
+<br>
+    <b>Sustainable Fund</b>:
+    <p style="text-indent: 30px;">
+        This fund emphasizes investments in U.S. companies that demonstrate strong <b>environmental, social, and governance (ESG) practices</b>.
+        It is managed to select companies that meet high sustainability standards,
+        making it suitable for investors seeking to align their portfolios with responsible investment principles
+        while pursuing competitive financial returns.
+    </p>
+</div>
+
+<p>
+    <b>Both funds are currently active in the financial market but have been anonymized for the purpose of the study</b>.
+    All data shown in this study represent real historical performance.
+</p>
+
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" > Next Page </button></center>
+
+
+
+
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

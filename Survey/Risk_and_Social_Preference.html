@@ -1,0 +1,93 @@
+{{ block title }}
+    Survey
+{{ endblock }}
+
+{{ block content }}
+<br>
+<p>
+    For the questions below, we ask you for your willingness to act in a certain way.
+    Please again indicate your answer on a scale from 1 to 10.
+</p>
+<p>
+    1 means “Completely unwilling to do” and 10 means “Very Willing to do".
+</p>
+<div class="card mb-2">
+    <div class="card-body bg-light">
+        {% for field in form %}
+
+        <div class="form-group">
+
+            <label>{{ field.label }}</label>
+
+            <table class="table table-borderless mb-4">
+                <tbody>
+                <tr>
+                    {{ for i in 1,2,3,4,5,6,7,8,9,10 }}
+                    <td style="width: 10%">
+                        <div class="text-center m-auto">
+                            <label for="inlineRadio{{i}}"><i>{{ i }}</i></label><br>
+                            <input type="radio" name={{field.name}} id="inlineRadio{{i}}"
+                                   value={{i}} required><br>
+                            <label for="inlineRadio{{i}}"><i>{{ if i == 1}}Completely unwilling to do
+                                {{elif i == 10}}Very Willing to do
+                                {{else}}
+                                {{endif}}</i></label>
+                        </div>
+                    </td>
+                    {{ endfor }}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<br>
+<center>
+    <button id="next-button" type="submit" class="btn btn-primary">Next</button>
+</center>
+
+<style>
+    #next-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 0 20px;
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    #next-button:hover {
+        background-color: blue;
+        color: white;
+    }
+
+    .question {
+        border: 1px solid #ddd; /* Adds a light border around each question */
+        padding: 15px; /* Adds some padding inside the border */
+        margin-bottom: 20px; /* Adds space between questions */
+        border-radius: 10px; /* Rounds  the corners of the border */
+        background-color: #f9f9f9; /* Light background color for each question */
+    }
+    .question p {
+        margin-bottom: 10px; /* Reduces space between the question text and options */
+    }
+    .question .radio-inline {
+        display: inline-block;
+        width: 20%;
+        text-align: center;
+        vertical-align: middle;
+    }
+    /*.question {*/
+    /*    text-align: center;*/
+    /*}*/
+</style>
+
+{{ endblock }}

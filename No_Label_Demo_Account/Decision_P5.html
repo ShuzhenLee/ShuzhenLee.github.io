@@ -1,0 +1,197 @@
+{{ block title }}
+    Demo Account
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js" xmlns="http://www.w3.org/1999/html"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+<link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+
+<form id="instruction-form" method="post">
+    <div id="instructions-container">
+        <div class="instruction-page">
+            <p>
+                The initial portfolio you constructed in your demo account is made up by
+                <span style="color: #808080"><b>{{ con_decision0 }}% of Fund A</b></span>
+                and <span style="color: rgba(59,56,56,0.7)"><b>{{ decision0 }}% of Fund B</b></span>.
+            </p>
+
+            <div class = "add-a-frame">
+                <p>
+                    Now, the returns for the last 9 periods (Period 37 - Period 45) are revealed in a fixed speed.
+                </p>
+                 <!-- New elements for the incremental update chart -->
+                <div id="chart-container" style="position: relative; width: 100%;">
+                    <div id="newContainer" class="chart-container" style="width: 100%; height: 500px;"></div> <!-- New container for the chart -->
+                    <div id="UpDownTable" style="position: absolute; top: 10px; right: 0px; z-index: 2; background-color: white; padding: 5px; display: none;"></div>
+                </div>
+            </div>
+            <div class = "add-a-frame">
+                <p style="font-size: large"><b>Hypothetical Adjustment (Adjusted Portfolio)</b></p>
+                <p>
+                    You previously indicated that if given the opportunity to adjust your portfolio at Period 36,
+                    you would allocate <span style="color: #808080"><b>{{ con_decision4 }}% of Fund A</b></span>
+                    and <span style="color: rgba(59,56,56,0.7)"><b>{{ decision4 }}% of Fund B</b></span>.
+                    The chart below compares the Initial Portfolio returns with the returns of your Adjusted Portfolio for the past 45 periods.
+                </p>
+                <div id="chart-fix_container" style="position: relative; width: 100%;">
+                    <div id="fix_newContainer" class="chart-container" style="width: 100%; height: 500px;"></div> <!-- New container for the chart -->
+                    <div id="fix_UpDownTable" style="position: absolute; top: 10px; right: 0px; z-index: 2; background-color: white; padding: 5px; display: none;"></div>
+                </div>
+                <br>
+            </div>
+            <p>
+                After reviewing the <i>Returns by Period</i> charts and the average returns,
+                you can click the button below to reveal the <i>Cumulative Return</i> chart on the next page.
+            </p>
+        </div>
+
+
+        <div class="instruction-page">
+            <div class = "add-a-frame">
+                <p>
+                    The <i>Cumulative Return </i> chart below illustrates how the total returns of
+                    the two funds and your demo account portfolios have accumulated <u>up to Period 45</u>.
+                </p>
+                <div id="cumulative_chart">
+                    <div class="chart-container" id="cumu_1_Container"></div>
+                </div>
+                <p style="font-size: small"><i>
+                    Note: The Initial Portfolio reflects your original investment allocation, held constant throughout these periods without any adjustments.
+                    In contrast, the Adjusted Portfolio represents how your returns would have changed if you had the opportunity to modify your allocation at this stage.
+                </i></p>
+            </div>
+            <P>
+                After reviewing the <i>Cumulative Return</i> chart,
+                you can click the "Next Page" button to reveal the <i>Fund Performance table</i>.
+            </P>
+            <br>
+        </div>
+
+
+        <div class="instruction-page">
+            <div class = "add-a-frame">
+                <p>
+                    Now you have revealed all 45 periods of returns in this stage.
+                    The table below shows the performance of the two funds and your portfolio over the 45 periods.
+                </p>
+                <div id="summaryTableContainer" class = "table-container-full" style="width: 100%; "></div>
+                    <i style="font-size: small;">
+                        <b>Note:</b> The performance data shown represent past performance and do not guarantee future results. Investment returns and principal values will fluctuate, and shares may be worth more or less than their original cost.
+                    </i>
+                <br>
+            </div>
+
+            <p>
+                You can check the glossary for the definitions of the key terms if you need: <button type="button" id="custom-button" class="custom-button">Glossary</button>
+            </p>
+            <div id="chart-introduction" style="display: none;">
+                <div class="add-a-frame">
+                    <p>
+                        <b>Return</b>: The percentage change of the value of an investment in one period from the previous period.
+
+                        It measures how much an investment has increased or decreased in value.
+                    </p>
+                    <p>
+                        <b>Cumulative Return</b>:
+                        The total percentage change in the fund’s value over 45 periods.
+                        Higher values indicate greater overall growth.
+                    </p>
+                    <p>
+                        <b>Average Return</b>:
+                        The average periodic return of the fund over 45 periods.
+                        Positive values reflect average growth, while negative values indicate average losses.
+                    </p>
+                    <p>
+                        <b>Volatility</b>:
+                        A measure of how much the fund’s returns fluctuate over 45 periods.
+                        Higher volatility suggests greater variation in returns and potentially higher risk.
+                    </p>
+                    <p>
+                        <b>Sharpe Ratio</b>: A measure of risk-adjusted returns.
+                        It compares the fund’s average return to its risk (volatility).
+                        A higher Sharpe ratio indicates better performance relative to risk over the 45 periods.
+                    </p>
+                </div>
+            </div>
+            <br>
+<!--            <div class="add-a-frame">-->
+                <p>
+                    You have completed the demo account investments.
+<!--                    Based on the cumulative return of your Initial Portfolio over the 45 periods,-->
+<!--                    the final hypothetical value of your demo account is <b>{{ player.payoff_real_invest }}</b> ECUs.-->
+<!--                </p>-->
+<!--            </div>-->
+<!--            <p>-->
+                Please click the button below to proceed to the next stage.
+            </p>
+        </div>
+        <div class="button-container"><center>
+            <button type="button" id="prev-button">Previous Page</button>
+            <button type="button" id="next-button" class="otree-btn-next btn btn-primary" disabled>Next Page</button>
+        </center></div>
+
+    </div>
+</form>
+
+<div id="data-container"
+     data-decision0="{{ decision0 }}"
+     data-decision1="{{ decision1 }}"
+     data-decision2="{{ decision2 }}"
+     data-decision3="{{ decision3 }}"
+     data-decision4="{{ decision4 }}"></div>
+
+
+<!--<script src="{% static 'js/no_label_slider_decision1.js' %}"></script>-->
+
+
+<script>
+    // Pass data from Python to JavaScript
+    window.chartData = {
+        susData: {{ sus_data }},
+        conData: {{ con_data }},
+        portData: {{ port_data }},
+        fixportData: {{ fix_port_data }}
+    };
+    window.CumulativeDataEveryPeriod = {
+        TRSusData: {{TR_sus_data | safe }},
+        TRConData: {{ TR_con_data | safe }},
+        TRPortData: {{ TR_port_data | safe }},
+        TRFixPortData: {{ fix_TR_port_data | safe }}
+    };
+
+    window.summaryData = {{ summaryData | safe }};
+</script>
+<script>
+    // Function to toggle visibility and update button text
+    function toggleVisibility(buttonId, contentId, showText, hideText) {
+        document.getElementById(buttonId).addEventListener('click', function () {
+            const contentDiv = document.getElementById(contentId);
+            const button = this;
+            if (contentDiv.style.display === 'none') {
+                contentDiv.style.display = 'block';
+                button.textContent = hideText;
+            } else {
+                contentDiv.style.display = 'none';
+                button.textContent = showText;
+            }
+        });
+    }
+    // Apply toggle functionality to each button-content pair
+    toggleVisibility('custom-button', 'chart-introduction', 'Glossary', 'Hide Glossary');
+
+</script>
+<script src="{% static 'js/no_label_demo_account.js' %}"></script>
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+
+
+
+{{ endblock }}

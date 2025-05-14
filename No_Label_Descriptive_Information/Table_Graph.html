@@ -1,0 +1,236 @@
+{{ block title }}
+    Performance
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+
+
+<form id="instruction-form" method="post">
+    <div id="instructions-container">
+        <div class="instruction-page">
+<!--            <p>-->
+<!--                Now, you will review the historical performance of the two funds over a new set of <b>45 periods</b>,-->
+<!--                separate from the first 10 periods you previously observed.-->
+<!--            </p>-->
+            <div class = "add-a-frame">
+            <p>
+                The <i>Returns by Period</i> chart below displays the historical performance of the two funds across <u>45 periods</u>.
+            </p>
+
+            <div id="chart-container" style="position: relative; width: 100%;">
+                <div id="newContainer" class="new-chart-container" style="width: 100%; height: 500px;"></div> <!-- New container for the chart -->
+            </div>
+            </div>
+            <p>
+                After reviewing the <i>Returns by Period</i> chart, you can click the button below to reveal the <i>Cumulative Return</i> chart on the next page.
+            </p>
+            <br>
+        </div>
+
+
+        <div class="instruction-page">
+
+            <div class = "add-a-frame">
+                <p>
+                    The <i>Cumulative Return chart</i> below illustrates how the total returns of the two funds have accumulated <u>over 45 periods</u>.
+                </p>
+
+            <div id="cumulative_chart">
+                <div class="chart-container" id="cumu_1_Container"></div>
+            </div>
+            </div>
+                <p>
+                    To read more details of performances of both funds for the past periods, click the button below.
+                </p>
+            <br>
+        </div>
+
+
+        <div class="instruction-page">
+            <div class = "add-a-frame">
+                <p>
+                    The <i>Fund Performance table</i> below provides a comprehensive overview of the historical performance of the two funds over 45 periods.
+                </p>
+                <div id="summaryTableContainer" class = "table-container-full" style="width: 100%; "></div>
+
+                    <i style="font-size: small;">
+                        <b>Note:</b> The performance data shown represent past performance and do not guarantee future results. Investment returns and principal values will fluctuate, and shares may be worth more or less than their original cost.
+                    </i>
+                <br>
+            </div>
+            <p>
+                You can check the glossary for the definitions of the key terms if you need: <button type="button" id="custom-button" class="custom-button">Glossary</button>
+            </p>
+            <div id="chart-introduction" style="display: none;">
+                <div class="add-a-frame">
+                    <p>
+                        <b>Return</b>: The percentage change of the value of an investment in one period from the previous period.
+                        A positive return represents a gain of value. A negative return represents a loss of value.
+                    </p>
+                    <p>
+                        <b>Cumulative Return</b>:
+                        The total percentage change in the fund’s value over 45 periods.
+                        Higher values indicate greater overall growth.
+                    </p>
+                    <p>
+                        <b>Average Return</b>:
+                        The average periodic return of the fund over the 45 periods.
+                        Positive values reflect average growth, while negative values indicate average losses.
+                    </p>
+                    <p>
+                        <b>Volatility</b>:
+                        A measure of how much the fund’s returns fluctuate.
+                        Higher volatility suggests greater variation in returns and potentially higher risk.
+                    </p>
+                    <p>
+                        <b>Sharpe Ratio</b>: A measure of risk-adjusted returns.
+                        It compares the fund’s average return to its risk (volatility).
+                        A higher Sharpe ratio indicates better performance relative to risk.
+                    </p>
+                </div>
+            </div>
+            <p>
+                After reviewing the information in this stage,
+                you will be asked to make investment decisions between two funds in the next stage.
+            </p>
+        </div>
+
+
+
+        <div class="button-container"><center>
+            <button type="button" id="prev-button">Previous Page</button>
+            <button type="button" id="next-button">Next Page</button>
+        </center></div>
+    </div>
+</form>
+
+
+
+
+
+<script type="text/javascript">
+    // Pass data from Python to JavaScript
+    window.chartData = {
+        susData: {{ sus_data }},
+        conData: {{ con_data }},
+    };
+    window.CumulativeDataEveryPeriod = {
+        TRSusData: {{TR_sus_data | safe }},
+        TRConData: {{ TR_con_data | safe }},
+    };
+    window.summaryData = {{ summaryData | safe }};
+</script>
+<script>
+    // Function to toggle visibility and update button text
+    function toggleVisibility(buttonId, contentId, showText, hideText) {
+        document.getElementById(buttonId).addEventListener('click', function () {
+            const contentDiv = document.getElementById(contentId);
+            const button = this;
+            if (contentDiv.style.display === 'none') {
+                contentDiv.style.display = 'block';
+                button.textContent = hideText;
+            } else {
+                contentDiv.style.display = 'none';
+                button.textContent = showText;
+            }
+        });
+    }
+
+    // Apply toggle functionality to each button-content pair
+    toggleVisibility('custom-button', 'chart-introduction', 'Glossary', 'Hide Glossary');
+    toggleVisibility('cumu-def-button', 'intro-cumu-Return', 'Glossary', 'Hide Glossary');
+    toggleVisibility('R-def-button', 'intro-Return', 'Glossary', 'Hide Glossary');
+</script>
+<script src="{% static 'js/no_label_Table_and_Graph.js' %}"></script>
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+<!--styles for math-->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+    h2 {
+        color: #2c3e50;
+    }
+    p, ul {
+        margin-bottom: 1em;
+    }
+    .math {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f4f4f4;
+        border-left: 5px solid #2c3e50;
+        font-family: "Courier New", Courier, monospace;
+    }
+    .disabled-button {
+        pointer-events: none;
+        opacity: 0.6;
+        cursor: default !important;
+        box-shadow: none !important;
+    }
+
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const nextBtn = document.getElementById('next-button');
+    const pages = () => document.querySelectorAll('.instruction-page');
+    const visitedIndexes = [];
+
+    function getActivePageIndex() {
+        const allPages = pages();
+        for (let i = 0; i < allPages.length; i++) {
+            if (allPages[i].classList.contains('active')) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    function handleTimeGate() {
+        const index = getActivePageIndex();
+        if (index === -1) return;
+
+        if (!visitedIndexes.includes(index)) {
+            visitedIndexes.push(index); // Mark as visited
+
+            nextBtn.disabled = true;
+            nextBtn.classList.add('disabled-button');
+
+            setTimeout(() => {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('disabled-button');
+            }, 5000);
+        } else {
+            // Already visited — immediately enable
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('disabled-button');
+        }
+    }
+
+    // Observe page changes
+    const observer = new MutationObserver(() => {
+        handleTimeGate();
+    });
+
+    pages().forEach(page => {
+        observer.observe(page, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Initial trigger
+    handleTimeGate();
+});
+</script>
+
+{{ endblock }}

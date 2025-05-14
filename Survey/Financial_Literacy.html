@@ -1,0 +1,56 @@
+{{ block title }}
+    Survey
+{{ endblock }}
+
+{{ block content }}
+<br>
+<p>
+    For the following 3 questions, you will earn <b><u>0.20 GBP</u></b> for each correct answer.
+</p>
+<div class="question">
+    {{ formfield player.compounding }}
+
+    {{ formfield player.inflation }}
+
+    {{ formfield player.diversification }}
+
+</div>
+
+
+
+<br>
+<center>
+    <button id="next-button" type="submit" class="btn btn-primary">Next</button>
+</center>
+
+<style>
+    #next-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 0 20px;
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    #next-button:hover {
+        background-color: blue;
+        color: white;
+    }
+
+    .question {
+        border: 1px solid #ddd; /* Adds a light border around each question */
+        padding: 15px; /* Adds some padding inside the border */
+        margin-bottom: 20px; /* Adds space between questions */
+        border-radius: 10px; /* Rounds  the corners of the border */
+        background-color: #f9f9f9; /* Light background color for each question */
+    }
+    .question p {
+        margin-bottom: 10px; /* Reduces space between the question text and options */
+    }
+</style>
+
+{{ endblock }}

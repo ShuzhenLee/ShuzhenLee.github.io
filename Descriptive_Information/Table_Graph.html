@@ -1,0 +1,294 @@
+{{ block title }}
+    Performance
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+
+
+<form id="instruction-form" method="post">
+    <div id="instructions-container">
+        <div class="instruction-page">
+<!--            <p>-->
+<!--                Remember that we have two real funds:-->
+<!--                The <span style="color: #808080"><b>Conventional Fund</b></span> that prioritize diversification-->
+<!--                <b>without excluding controversial industries</b> such as tobacco, weapons, and fossil fuel.-->
+
+<!--                The <span style="color: green"><b>Sustainable Fund</b></span> which integrates <b>ESG</b> factors as a core focus of its investment strategy.-->
+<!--            </p>-->
+<!--            <p>-->
+<!--                Now, you will review the performance of the two funds over a new set of <b>45 periods</b>,-->
+<!--                separate from the first 10 periods you previously observed.-->
+<!--            </p>-->
+            <div class = "add-a-frame">
+            <p>
+                The <i>Returns by Period</i> chart below displays the performance of the two funds across <u>45 periods</u>.
+<!--                By observing the chart, you can compare the performance of the funds,-->
+<!--                identify periods of higher or lower returns, and analyze overall trends to understand how each fund performed over time.-->
+<!--            </p>-->
+<!--            <p>-->
+<!--                The horizontal axis represents the period, while the vertical axis shows the returns for each period.-->
+<!--                The green line corresponds to the <span style="color: green">Sustainable Fund</span>-->
+<!--                and the grey line represents the <span style="color: #808080">Conventional Fund</span>.-->
+
+<!--                Each point on the lines indicates the return of the respective fund for that period.-->
+<!--                You can hover over a point to reveal the exact return values for both funds.-->
+            </p>
+
+            <div id="chart-container" style="position: relative; width: 100%;">
+                <div id="newContainer" class="new-chart-container" style="width: 100%; height: 500px;"></div> <!-- New container for the chart -->
+            </div>
+            </div>
+<!--            <center><button type="button"  id="R-def-button" class="custom-button">Glossary</button></center>-->
+<!--                <div id="intro-Return" class="add-a-frame" style="display: none;">-->
+
+<!--                </div>-->
+            <p>
+                After reviewing the <i>Returns by Period</i> chart, you can click the button below to reveal the <i>Cumulative Return</i> chart on the next page.
+            </p>
+            <br>
+        </div>
+
+
+        <div class="instruction-page">
+
+            <div class = "add-a-frame">
+                <p>
+                    The <i>Cumulative Return chart</i> below illustrates how the total returns of the two funds have accumulated <u>over 45 periods</u>.
+                </p>
+
+<!--                <p>-->
+<!--                    The horizontal axis represents the periods, while the vertical axis shows the cumulative returns for each fund.-->
+<!--                    The same as the <i>Return by Period</i> chart,-->
+<!--                    the green line corresponds to the <span style="color: green">Sustainable Fund</span>,-->
+<!--                    and the grey line represents the <span style="color: #808080">Conventional Fund</span>.-->
+<!--                    You can hover over a point reveals the cumulative returns for both funds at the certain period.-->
+<!--                </p>-->
+
+            <div id="cumulative_chart">
+                <div class="chart-container" id="cumu_1_Container"></div>
+            </div>
+            </div>
+<!--            <center><button type="button"  id="cumu-def-button" class="custom-button">Glossary</button></center>-->
+<!--                <div id="intro-cumu-Return" class="add-a-frame" style="display: none;">-->
+<!--                    <p>-->
+<!--                        <b>Cumulative return</b> measures the total percentage change in the value of an investment from Period 0 across multiple periods (45 periods here).-->
+<!--                         It represents the overall growth of the investment over time.-->
+<!--                        A positive cumulative return indicates overall growth, while a negative cumulative return indicates an overall decline in value.-->
+<!--                    </p>-->
+<!--                    <b>Calculation</b>: The cumulative return is calculated using the product of all period returns:-->
+<!--                    <div class="math">-->
+<!--                        <center><p><b>-->
+<!--                            Cumulative Return = (∏<sup>n</sup><sub>i=1</sub> (1 + r<sub>i</sub>)) − 1-->
+<!--                        </b></p></center>-->
+<!--                    </div>-->
+<!--                    <p style="text-indent: 30px">Where:</p>-->
+<!--                    <p style="text-indent: 60px">r<sub>i</sub>: Return for period <em>i</em> (as a decimal, e.g., 5% = 0.05)</p>-->
+<!--                    <p style="text-indent: 60px">n: Number of periods</p>-->
+
+<!--                    <b>Example</b>: Suppose an investment's returns over 3 periods are as follows:-->
+<!--                    Period 1 has a return of 2% (r<sub>1</sub> = 0.02), Period 2 has a return of 3% (r<sub>2</sub> = 0.03),-->
+<!--                    and Period 3 has a return of -1% (r<sub>3</sub> = -0.01).-->
+<!--                    The cumulative return over 3 Periods is calculated as follows:-->
+
+<!--                       <p style="text-indent: 30px">-->
+<!--                            Cumulative Return = ((1 + 0.02)(1 + 0.03)(1 - 0.01)) - 1 = (1.02 × 1.03 × 0.99) - 1 = 4.19%</p>-->
+<!--                </div>-->
+                <p>
+                    To read more details of performances of both funds for the past periods, click the button below.
+                </p>
+            <br>
+        </div>
+
+
+        <div class="instruction-page">
+            <div class = "add-a-frame">
+                <p>
+                    The <i>Fund Performance table</i> below provides a comprehensive overview of the performance of the two funds over 45 periods.
+<!--                    It enables a side-by-side comparison of key performance metrics,-->
+<!--                    offering insights into their cumulative growth,-->
+<!--                    average returns, volatility, and risk-adjusted performance (Sharpe Ratio).-->
+<!--                    (See the glossary for definitions of these metrics.)-->
+                </p>
+                <div id="summaryTableContainer" class = "table-container-full" style="width: 100%; "></div>
+
+                    <i style="font-size: small;">
+                        <b>Note:</b> The performance data shown represent past performance and do not guarantee future results. Investment returns and principal values will fluctuate, and shares may be worth more or less than their original cost.
+                    </i>
+                <br>
+            </div>
+            <p>
+                You can check the glossary for the definitions of the key terms if you need: <button type="button" id="custom-button" class="custom-button">Glossary</button>
+            </p>
+            <div id="chart-introduction" style="display: none;">
+                <div class="add-a-frame">
+                    <p>
+                        <b>Return</b>: The percentage change of the value of an investment in one period from the previous period.
+                        A positive return represents a gain of value. A negative return represents a loss of value.
+                    </p>
+                    <p>
+                        <b>Cumulative Return</b>:
+                        The total percentage change in the fund’s value over 45 periods.
+                        Higher values indicate greater overall growth.
+                    </p>
+                    <p>
+                        <b>Average Return</b>:
+                        The average periodic return of the fund over the 45 periods.
+                        Positive values reflect average growth, while negative values indicate average losses.
+                    </p>
+                    <p>
+                        <b>Volatility</b>:
+                        A measure of how much the fund’s returns fluctuate.
+                        Higher volatility suggests greater variation in returns and potentially higher risk.
+                    </p>
+                    <p>
+                        <b>Sharpe Ratio</b>: A measure of risk-adjusted returns.
+                        It compares the fund’s average return to its risk (volatility).
+                        A higher Sharpe ratio indicates better performance relative to risk.
+                    </p>
+                </div>
+            </div>
+            <p>
+                You have reviewed all the information in this stage.
+                In the next stage, you will make investment decisions between the two funds.
+                Click "Next Page" to proceed to the Stage 2 instructions.
+            </p>
+        </div>
+
+
+
+        <div class="button-container"><center>
+            <button type="button" id="prev-button">Previous Page</button>
+            <button type="button" id="next-button">Next Page</button>
+        </center></div>
+    </div>
+</form>
+
+
+
+<script type="text/javascript">
+    // Pass data from Python to JavaScript
+    window.chartData = {
+        susData: {{ sus_data }},
+        conData: {{ con_data }},
+    };
+    window.CumulativeDataEveryPeriod = {
+        TRSusData: {{TR_sus_data | safe }},
+        TRConData: {{ TR_con_data | safe }},
+    };
+    window.summaryData = {{ summaryData | safe }};
+</script>
+<script>
+    // Function to toggle visibility and update button text
+    function toggleVisibility(buttonId, contentId, showText, hideText) {
+        document.getElementById(buttonId).addEventListener('click', function () {
+            const contentDiv = document.getElementById(contentId);
+            const button = this;
+            if (contentDiv.style.display === 'none') {
+                contentDiv.style.display = 'block';
+                button.textContent = hideText;
+            } else {
+                contentDiv.style.display = 'none';
+                button.textContent = showText;
+            }
+        });
+    }
+
+    // Apply toggle functionality to each button-content pair
+    toggleVisibility('custom-button', 'chart-introduction', 'Glossary', 'Hide Glossary');
+    toggleVisibility('cumu-def-button', 'intro-cumu-Return', 'Glossary', 'Hide Glossary');
+    toggleVisibility('R-def-button', 'intro-Return', 'Glossary', 'Hide Glossary');
+</script>
+<script src="{% static 'js/Table_and_Graph.js' %}"></script>
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+<!--styles for math-->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+    h2 {
+        color: #2c3e50;
+    }
+    p, ul {
+        margin-bottom: 1em;
+    }
+    .math {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f4f4f4;
+        border-left: 5px solid #2c3e50;
+        font-family: "Courier New", Courier, monospace;
+    }
+    .disabled-button {
+        pointer-events: none;
+        opacity: 0.6;
+        cursor: default !important;
+        box-shadow: none !important;
+    }
+
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const nextBtn = document.getElementById('next-button');
+    const pages = () => document.querySelectorAll('.instruction-page');
+    const visitedIndexes = [];
+
+    function getActivePageIndex() {
+        const allPages = pages();
+        for (let i = 0; i < allPages.length; i++) {
+            if (allPages[i].classList.contains('active')) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    function handleTimeGate() {
+        const index = getActivePageIndex();
+        if (index === -1) return;
+
+        if (!visitedIndexes.includes(index)) {
+            visitedIndexes.push(index); // Mark as visited
+
+            nextBtn.disabled = true;
+            nextBtn.classList.add('disabled-button');
+
+            setTimeout(() => {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('disabled-button');
+            }, 5000);
+        } else {
+            // Already visited — immediately enable
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('disabled-button');
+        }
+    }
+
+    // Observe page changes
+    const observer = new MutationObserver(() => {
+        handleTimeGate();
+    });
+
+    pages().forEach(page => {
+        observer.observe(page, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Initial trigger
+    handleTimeGate();
+});
+</script>
+
+
+{{ endblock }}

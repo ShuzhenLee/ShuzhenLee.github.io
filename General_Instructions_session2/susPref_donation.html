@@ -1,0 +1,137 @@
+{{ block title }}
+    Donation
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    Now, we give you £1, you can decide to donate to the environmental organization you selected earlier (You selected: {{ selected_charity }}) or keep it for yourself.
+</p>
+
+<p>
+    Note: There is a <b>10% chance that this question will be implemented for real</b>.
+</p>
+
+<p>
+    How many pence out of £1 would you like to donate to the environmental organization?
+    Please use the slider below to indicate your donation amount.
+</p>
+
+
+<br>
+
+<div class="slider-container">
+    <label class="slider-label slider-label-left">0</label>
+    <input type="range" id="id_susPref_donation" name="susPref_donation" class="custom-slider"
+           min="0" max="100" value="0" oninput="updateSlider(this)">
+    <label class="slider-label slider-label-right">1 Pound</label>
+    <span id="slider-value" class="slider-thumb-label">0 pence</span>
+</div>
+<br>
+<center><p id="slider-description"></p></center>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" disabled> Next Page </button></center>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+<style>
+    .slider-container {
+        position: relative;
+        width: 50%;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .custom-slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(to right, blue 0%, gray 0%);
+        outline: none;
+        border-radius: 5px;
+        transition: background 0.2s;
+    }
+
+    /* Thumb (slider handle) */
+    .custom-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        background: white;
+        border: 2px solid black;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .custom-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        background: white;
+        border: 2px solid black;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    /* Slider Labels */
+    .slider-label {
+        position: absolute;
+        top: 30px;
+        font-size: 16px;
+    }
+
+    .slider-label-left {
+        left: 0;
+    }
+
+    .slider-label-right {
+        right: 0;
+    }
+
+    /* Slider Thumb Label */
+    .slider-thumb-label {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 4px 8px;
+        border-radius: 5px;
+        border: 1px solid black;
+        font-size: 14px;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    function updateSlider(slider) {
+        let value = slider.value;
+        let percentage = (value / 100) * 100;
+
+        // Update background gradient dynamically
+        slider.style.background = `linear-gradient(to right, blue ${percentage}%, gray ${percentage}%)`;
+
+        // Update slider value display
+        let sliderValue = document.getElementById("slider-value");
+        sliderValue.textContent = value + " pence";
+
+        // Move label with the thumb
+        let sliderRect = slider.getBoundingClientRect();
+        let thumbPosition = (percentage / 100) * sliderRect.width;
+        sliderValue.style.left = `${thumbPosition}px`;
+
+        // Update the description
+        let description = document.getElementById("slider-description");
+        description.textContent = `You decided to donate ${value} pence to the environmental organization, and keep the rest of ${100 - value} pence to yourself.`;
+
+        // Enable the Next button when the slider is moved
+        document.getElementById("next-button").disabled = false;
+    }
+
+    // Ensure the Next button starts disabled
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("next-button").disabled = true;
+    });
+</script>
+
+
+
+{{ endblock }}

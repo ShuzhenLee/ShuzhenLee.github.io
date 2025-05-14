@@ -1,0 +1,103 @@
+{{ block title }}
+    Summary of Your Investment Results
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js" xmlns="http://www.w3.org/1999/html"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+<link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+
+
+<p>
+    Over a 45-period investment horizon, you allocated 100 ECUs between two funds.
+    Below is an overview of your portfolio allocations and the resulting performance under different strategies.
+</p>
+
+<p style="font-size: large"><b>
+    Your Portfolio Allocation Decisions
+</b></p>
+<li>
+     <b>Your Initial Investment</b>: Fund A: {{ con_decision0 }}%; Fund B: {{ decision0 }}%
+</li>
+<li>
+    <b>Adjusted Investment #1</b>: Fund A: {{ con_decision1 }}%; Fund B: {{ decision1 }}%
+</li>
+<li>
+    <b>Adjusted Investment #2</b>: Fund A: {{ con_decision2 }}%; Fund B: {{ decision2 }}%
+</li>
+<li>
+    <b>Adjusted Investment #3</b>: Fund A: {{ con_decision3 }}%; Fund B: {{ decision3 }}%
+</li>
+<li>
+    <b>Adjusted Investment #4</b>: Fund A: {{ con_decision4 }}%; Fund B: {{ decision4 }}%
+</li>
+<br>
+
+<p style="font-size: large"><b>
+    Portfolio Results Over 45 Periods
+</b></p>
+{% for result in results %}
+<li id="{{ result.id }}">
+    {{ result.text }}
+</li>
+{% endfor %}
+<br>
+
+<p>
+    Now, based on the information above, we ask you to answer the question below:
+</p>
+
+<div class="card mb-2">
+    <div class="card-body bg-light">
+        {% for field in form %}
+
+        <div class="form-group">
+
+            <label>{{ field.label }}</label>
+
+            <table class="table table-borderless mb-4">
+                <tbody>
+                <tr>
+                    {{ for i in 1,2,3,4,5,6,7 }}
+                    <td style="width: 10%">
+                        <div class="text-center m-auto">
+                            <label for="inlineRadio{{i}}"><i>{{ i }}</i></label><br>
+                            <input type="radio" name={{field.name}} id="inlineRadio{{i}}"
+                                   value={{i}} required><br>
+                            <label for="inlineRadio{{i}}"><i>{{ if i == 1}}Completely unsatisfied
+                                {{elif i == 7}}Completely satisfied
+                                {{else}}
+                                {{endif}}</i></label>
+                        </div>
+                    </td>
+                    {{ endfor }}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+<p>
+    Please click the button below to proceed to the next stage.
+</p>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary"> Next </button></center>
+
+
+
+<script src="{% static 'js/real_investment.js' %}"></script>
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+
+
+
+{{ endblock }}

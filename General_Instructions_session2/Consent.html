@@ -1,0 +1,72 @@
+{{ block title }}
+    Consent Form
+{{ endblock }}
+{{ block content }}
+ <p>
+    You are being asked to take part in a research study conducted by Dr. Peiran Jiao (Maastricht University),
+     Drs. Shuzhen Li (Utrecht University), and Dr. Yilong Xu (Utrecht University).
+</p>
+
+<p>
+    The purpose of this research is to better understand how you make decisions and how you form beliefs about decisions.
+    The study will take approximately 15 minutes to complete.
+    The study includes tasks and a short follow-up questionnaire.
+    You will receive clear instructions and will be provided with full and accurate information on how your decisions will influence your payment.
+    None of the data you provide in this study will be linked to any information that could identify you as a participant.
+    In the future, only anonymized data may be shared.
+</p>
+
+<p>
+    Your participation is completely voluntary.
+    You can agree to take part and later change your mind.
+    Your decision will not be held against you.
+    If you have questions or concerns, please write to the research team at <a href="s.li3@uu.nl">s.li3@uu.nl</a>.
+</p>
+
+<p style="font-size:20px;"><b>
+    Compensation
+</b></p>
+<p>
+    As noted above, participation in this study is completely voluntary, and you are free to withdraw from this study at any time without prejudice or penalty.
+    You will receive £1.5 for completing the study, and you may receive additional payment depending on your decisions in the study.
+</p>
+<p>
+    If you withdraw from the study, your participation will end immediately, and no data you have provided up to that point will be used.
+    And you will NOT receive the study completion fee due to incomplete participation.
+    All payments will be made via the Prolific bonus system.
+</p>
+
+<p>
+    You may print a copy of this information sheet for your own record.
+</p>
+<br>
+<p><b>
+    If you would like to voluntarily participate in this study and confirm that you are 18 years or older, please click "I CONSENT, begin the study" button on the left side below to continue.
+</b></p>
+
+<br>
+<form method="post">
+    <button type="submit" name="consent" value="True" class="btn btn-primary" style="float: left;">I CONSENT, begin the study</button>
+
+    <button type="submit" name="consent" value="False" class="btn btn-primary" style="float: right;">I DO NOT consent, exit the study</button>
+
+</form>
+<br>
+<br>
+<input type="hidden" name="is_mobile" id="is_mobile">
+<script>
+    function isMobile() {
+        const toMatch = [
+            /Android/i,
+            /iPhone/i,
+        ];
+
+        return toMatch.some((item) => navigator.userAgent.match(item));
+    }
+
+    forminputs.is_mobile.value = isMobile() ? 1 : 0;
+
+</script>
+
+
+{{ endblock }}

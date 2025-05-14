@@ -1,0 +1,183 @@
+{{ block title }}
+    Historical Performance (10 Periods)
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+
+
+<p>
+    Remember that we have two real funds:
+    The <span style="color: #808080"><b>Conventional Fund</b></span> that prioritize diversification
+    <b>without excluding controversial industries</b> such as tobacco, weapons, and fossil fuel.
+    The <span style="color: green"><b>Sustainable Fund</b></span> which integrates <b>ESG</b> factors as a core focus of its investment strategy.
+    On this page, you will find an overview of the historical performance of the two funds over the past 10 periods.
+</p>
+<div class = "add-a-frame">
+    <h5><b>Performance Over Time</b></h5>
+    <p>
+        The <i>Returns by Period</i> chart below shows how the returns of the two funds fluctuated over <u>10 periods</u>.
+<!--        This allows you to compare performance, identify trends, and analyze periods of higher or lower returns.-->
+    </p>
+    <p>
+        The <i>Cumulative Return chart</i> below illustrates how the total returns of the two funds have accumulated <u>over 10 periods</u>.
+        You can check the definitions of cumulative return here: <button type="button"  id="cumu-def-button" class="custom-button">Cumulative Return</button>
+    </p>
+    <div id="intro-cumu-Return" class="add-a-frame" style="display: none;">
+        <p>
+            <b>Cumulative return</b> measures the total percentage change in the value of an investment from Period 0 across multiple periods (10 periods here).
+             It represents the overall growth of the investment over time.
+<!--            A positive cumulative return indicates overall growth, while a negative cumulative return indicates an overall decline in value.-->
+        </p>
+        <b>Calculation</b>: The cumulative return is calculated using the product of all period returns:
+        <div class="math">
+            <center><p><b>
+                Cumulative Return = (∏<sup>n</sup><sub>i=1</sub> (1 + r<sub>i</sub>)) − 1
+            </b></p></center>
+        </div>
+        <p style="text-indent: 30px">Where:</p>
+        <p style="text-indent: 60px">r<sub>i</sub>: Return for period <em>i</em> (as a decimal, e.g., 5% = 0.05)</p>
+        <p style="text-indent: 60px">n: Number of periods</p>
+
+        <b>Example</b>: Suppose an investment's returns over 3 periods are as follows:
+        Period 1 has a return of 2% (r<sub>1</sub> = 0.02), Period 2 has a return of 3% (r<sub>2</sub> = 0.03),
+        and Period 3 has a return of -1% (r<sub>3</sub> = -0.01).
+        The cumulative return over 3 Periods is calculated as follows:
+
+           <p style="text-indent: 30px">
+                Cumulative Return = ((1 + 0.02)(1 + 0.03)(1 - 0.01)) - 1 = (1.02 × 1.03 × 0.99) - 1 = 4.19%</p>
+    </div>
+    <p style="font-size: 14px;">
+        The horizontal axis represents the period, while the vertical axis shows the returns for each period.
+        The green line corresponds to the <span style="color: green">Sustainable Fund</span>
+        and the grey line represents the <span style="color: #808080">Conventional Fund</span>.
+        You can hover over a point on the lines to reveal the exact return values for both funds.
+    </p>
+
+    <div id="chart-container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <!-- First Chart -->
+        <div id="newContainer" class="new-chart-container" style="width: 49%; height: 350px;"></div>
+        <!-- Second Chart -->
+        <div id="cumu_1_Container" class="new-chart-container" style="width: 49%; height: 350px;"></div>
+    </div>
+</div>
+
+
+<div class = "add-a-frame">
+    <h5><b>Performance Summary</b></h5>
+    <p>
+        The <i>Fund Performance table</i> below summarizes the historical performance of the two funds over 10 periods.
+    </p>
+    <div id="summaryTableContainer" class = "table-container-full" style="width: 100%; "></div>
+
+        <i style="font-size: small;">
+            <b>Note:</b> The performance data shown represent past performance and do not guarantee future results. Investment returns and principal values will fluctuate, and shares may be worth more or less than their original cost.
+        </i>
+    <br>
+    </div>
+    <p>
+        You can check the glossary for the definitions of the key terms if you need: <button type="button" id="custom-button" class="custom-button">Glossary</button>
+    </p>
+
+    <div id="chart-introduction" class="add-a-frame" style="display: none;">
+        <p>
+            <b>Return</b> measures percentage change of the value of an investment in one period from the previous period.
+            A positive return represents a gain of value.
+            A negative return represents a loss of value.
+        </p>
+        <p>
+            <b>Cumulative Return</b>:
+            The total percentage change in the fund’s value over 10 periods.
+            Higher values indicate greater overall growth.
+        </p>
+        <p>
+            <b>Average Return</b>:
+            The average periodic return of the fund over the 10 periods.
+            Positive values reflect average growth, while negative values indicate average losses.
+        </p>
+        <p>
+            <b>Volatility</b>:
+            A measure of how much the fund’s returns fluctuate.
+            Higher volatility suggests greater variation in returns and potentially higher risk.
+        </p>
+        <p>
+            <b>Sharpe Ratio</b>: A measure of risk-adjusted returns.
+            It compares the fund’s average return to its risk (volatility).
+            A higher Sharpe ratio indicates better performance relative to risk.
+        </p>
+    </div>
+<p>
+    Click the "Next Page" button to see more information.
+</p>
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" > Next Page </button></center>
+
+
+
+<script type="text/javascript">
+    // Pass data from Python to JavaScript
+    window.chartData = {
+        susData: {{ past_sus_data }},
+        conData: {{ past_con_data }},
+    };
+    window.CumulativeDataEveryPeriod = {
+        TRSusData: {{past_TR_sus_data | safe }},
+        TRConData: {{ past_TR_con_data | safe }},
+    };
+    window.summaryData = {{ past_summaryData | safe }};
+</script>
+<script>
+    // Function to toggle visibility and update button text
+    function toggleContent(buttonId, contentId, showText, hideText) {
+        const button = document.getElementById(buttonId);
+        const content = document.getElementById(contentId);
+
+        button.addEventListener('click', function () {
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                button.innerHTML = hideText;
+            } else {
+                content.style.display = 'none';
+                button.innerHTML = showText;
+            }
+        });
+    }
+
+    // Apply toggle function to each button separately
+    toggleContent('custom-button', 'chart-introduction', 'Show Glossary', 'Hide Glossary');
+    toggleContent('cumu-def-button', 'intro-cumu-Return', 'Show Cumulative Return', 'Hide Cumulative Return');
+</script>
+
+<script src="{% static 'js/ShortHistoricalData.js' %}"></script>
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+<!--styles for math-->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+    h2 {
+        color: #2c3e50;
+    }
+    p, ul {
+        margin-bottom: 1em;
+    }
+    .math {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f4f4f4;
+        border-left: 5px solid #2c3e50;
+        font-family: "Courier New", Courier, monospace;
+    }
+</style>
+{{ endblock }}

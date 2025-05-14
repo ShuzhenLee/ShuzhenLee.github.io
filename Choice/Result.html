@@ -1,0 +1,31 @@
+{{ block title }}
+    Plan Selection
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    Your stated willingness to pay for the Fixed Plan: <b>{{ player.wtp }} pence</b>
+</p>
+<p>
+    The randomly selected price: <b>{{ player.random_price }} pence</b>
+</p>
+
+{% if player.fixed_plan %}
+    <p>
+        Since your stated price is <b>equal to or higher</b> than the randomly selected price,
+        you will follow the <b>Fixed Plan</b> in the next stage.
+    </p>
+{% else %}
+    <p>
+        Since your stated price is <b>lower</b> than the randomly selected price,
+        you will follow the <b> Adjustable Plan</b> in the next stage.
+    </p>
+{% endif %}
+<p>
+    Please click the " Next Page" button to continue to the second stage.
+</p>
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary">  Next Page </button></center>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

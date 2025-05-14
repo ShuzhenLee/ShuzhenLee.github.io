@@ -1,0 +1,57 @@
+{{ block title }}
+    Your Initial Allocation
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js" xmlns="http://www.w3.org/1999/html"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+<link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+
+<p>
+    We first ask you to allocate 100 ECUs between the two funds.
+    Your allocation will determine the returns of your portfolio in the demo account over the next 45 periods.
+</p>
+
+<div class="add-a-frame">
+    <p>
+        You can make your allocation using either the slider or the input boxes below.
+    </p>
+    <p>You decide to allocate:
+        <input type="number" id="input_conventional" min="0" max="100" step="1"> % to the Fund A, and
+        <input type="number" id="input_sustainable" min="0" max="100" step="1"> % to the Fund B
+    </p>
+
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <div class="slider-container" style="width: 80%;">
+            <label class="slider-label slider-label-left">Fund A</label>
+            <input type="range" id="id_decision_P0" name="decision0" class="custom-slider"
+                   min="0" max="100" step="1">
+            <label class="slider-label slider-label-right"></label>
+            <div for="id_decision_P0" class="slider-point slider-point-start"></div>
+            <div for="id_decision_P0" class="slider-point slider-point-end"></div>
+            <div class="slider-point-marker" style="left:100%;">
+                <span class="slider-label slider-label-right">Fund B</span>
+            </div>
+            <span id="decision_P0" class="slider-thumb-label" style="color: blue">Allocation: </span>
+        </div>
+    </div>
+</div>
+
+
+
+<p>
+    Click "Next" to submit your allocation and proceed to reveal the returns for the first 9 periods.
+</p>
+<!--can go to next page only if the slider is moved or the min percent is allocating 100% to sustainable fund-->
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" disabled> Next </button></center>
+
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+<script src="{% static 'js/no_label_slider_decision0.js' %}"></script>
+
+
+{{ endblock }}

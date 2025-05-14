@@ -1,0 +1,99 @@
+{{ block title }}
+    Check Your Understanding
+{{ endblock }}
+
+{{ block content }}
+<font size="4"><b>
+    Please answer this question:
+</b></font>
+<p>
+    In this stage, after your initial allocation, can you adjust your allocation between the two funds?
+</p>
+<p>
+    <input type="radio" name="adjustment" value="yes" required> Yes, I can adjust it.
+    <br>
+    <input type="radio" name="adjustment" value="no"> No, I cannot adjust it.
+</p>
+
+<p id="note-text" style="display: none"><b>
+    Note: In this stage, for every 9 periods, you will be able to adjust your allocation.
+</b></p>
+
+<div id="investment-info" class="add-a-frame" style="display: none">
+    <p style ="color: red;">
+        Your answer is incorrect. Please read the instructions below again.
+    </p>
+    <font size="4"><b>
+        Instruction
+    </b></font>
+    <br>
+    <p>
+        Now you will have the opportunity to <b>make investments for real</b>.
+        At the start, we will give you 100 ECUs (as a gift) to allocate between Fund A and Fund B.
+        You will make your initial allocation decision.
+    </p>
+    <p>
+        After submitting your allocation, the returns will be revealed period by period, in <b>blocks of 9 periods</b> (e.g., Period 1–9, Period 10–18).
+        After each block is revealed, you will see the performance of the two funds and your portfolio.
+        <b>For every 9 periods, you will have the opportunity to adjust your last allocation</b>.
+        Once all 45 periods have been revealed,
+        we will summarize the performance of both funds and the portfolio you constructed.
+    </p>
+</div>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary"> Next Page </button></center>
+
+<!-- Multi-pages settings -->
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+
+<script>
+    let contentShown = false;
+
+    const nextButton = document.getElementById("next-button");
+    const note = document.getElementById("note-text");
+    const info = document.getElementById("investment-info");
+
+    function updateButtonState() {
+        const selected = document.querySelector('input[name="adjustment"]:checked');
+        if (!selected) return;
+
+        if (contentShown) {
+            if (selected.value === 'yes') {
+                nextButton.disabled = false;
+                nextButton.textContent = "Next Page";
+                note.style.display = 'block';
+                info.style.display = 'none';
+            } else {
+                nextButton.disabled = true;
+                nextButton.textContent = "Wrong Answer";
+                note.style.display = 'none';
+                info.style.display = 'block';
+            }
+        }
+    }
+
+    document.querySelectorAll('input[name="adjustment"]').forEach(radio => {
+        radio.addEventListener('change', updateButtonState);
+    });
+
+    nextButton.addEventListener("click", function(event) {
+        const selected = document.querySelector('input[name="adjustment"]:checked');
+        if (!selected) {
+            event.preventDefault();
+            alert("Please select an answer before continuing.");
+            return;
+        }
+
+        if (!contentShown) {
+            event.preventDefault(); // block for now
+            contentShown = true;
+            updateButtonState();
+        } else if (selected.value !== 'yes') {
+            // still block submission if "no"
+            event.preventDefault();
+        }
+    });
+</script>
+
+{{ endblock }}

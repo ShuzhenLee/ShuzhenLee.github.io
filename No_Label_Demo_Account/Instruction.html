@@ -1,0 +1,33 @@
+{{ block title }}
+    Instruction
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    Now the market is about to start.
+    However, instead of investing your money for real, we would like you to experience the investment using <b>a demo account</b> first.
+    You will be given the opportunity to make real investment after 45 periods.
+    Thus, in this stage, you can learn about the performance of the two funds and how your investment decisions affect your portfolio <b>WITHOUT real monetary consequences</b>.
+</p>
+<p>
+    At the beginning of this stage, you will be given 100 ECUs in your demo account to allocate between Fund A and Fund B.
+    This allocation will determine the initial composition of your portfolio before returns start being revealed.
+</p>
+<p>
+    The returns for the two funds will be revealed period by period at a fixed speed.
+    Once all 45 periods have been revealed, we will summarize the performance of both funds and the portfolio you constructed.
+</p>
+<p><b>
+    While this stage does NOT affect your final earnings in the study, it is designed to provide a hands-on experience in investment decision-making between the two funds.
+    Note that the returns are NOT hypothetical or simulated, they are the returns from these two real funds determined by the market.
+</b></p>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" > Next Page </button></center>
+
+
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

@@ -1,0 +1,73 @@
+
+.instruction-page {
+    display: none;
+}
+
+.instruction-page.active {
+    display: block;
+}
+    #prev-button, #next-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 0 20px;
+    }
+
+    #prev-button {
+        background-color: #c8d4e0;
+        color: #333;
+    }
+
+    #next-button {
+        background-color: #c8d4e0;
+        color: #333;
+    }
+
+    #prev-button:hover {
+        background-color: blue;
+        color:white;
+    }
+
+    #next-button:hover {
+        background-color: blue;
+        color:white;
+    }
+
+
+/*    frame a  content */
+.add-a-frame {
+    border: 1px solid #ddd; /* Adds a light border around each question */
+    padding: 15px; /* Adds some padding inside the border */
+    margin-bottom: 20px; /* Adds space between questions */
+    border-radius: 10px; /* Rounds  the corners of the border */
+    background-color: #f9f9f9; /* Light background color for each question */
+}
+.add-a-frame p {
+    margin-bottom: 10px; /* Reduces space between the question text and options */
+}
+
+
+/* Style for additional buttons */
+.custom-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 0 0; /* Adds spacing around the button */
+    background-color: #C8D4E0FF; /* Light gray background */
+    color: #333; /* Medium gray text */
+    font-weight: normal; /* Regular font weight */
+}
+
+.custom-button:hover {
+    background-color: blue;
+    color:white;
+    transform: scale(1.02); /* Minimal scale effect on hover */
+}
+
+

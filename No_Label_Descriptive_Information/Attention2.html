@@ -1,0 +1,15 @@
+{{ block title }}
+    Please answer the question below
+{{ endblock }}
+{{ block content }}
+
+<div class="add-a-frame">
+    {{ formfield player.attention_2 }}
+</div>
+<br>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary"> Next </button></center>
+
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

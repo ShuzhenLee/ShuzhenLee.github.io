@@ -1,0 +1,272 @@
+{{ block title }}
+    Instruction
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    Now you will have the opportunity to make an investment for real.
+</p>
+
+<p>
+    At the start, we will give you <b>100 ECUs</b>(as a gift) to allocate between the Conventional Fund and the Sustainable Fund.
+    You will make <b>ONLY ONE allocation decision</b> in this stage.
+    This decision will determine your portfolio allocation for all 45 periods, and you will <b>NOT be able to adjust</b> it later.
+</p>
+<p>
+    After submitting your allocation, the returns for the 45 periods will be revealed period by period.
+    Once all 45 periods have been revealed,
+    we will summarize the performance of both funds and the portfolio you constructed.
+</p>
+<p>
+    Your payoff for this stage will be based on the cumulative return of your portfolio over the 45 periods.
+    We will <b>donate</b> an amount equal to your final value of the Sustainable Fund investment to the environmental organization you selected earlier (You selected: {{ selected_charity }}).
+    There is a 50% chance that the payoff from this stage will be selected as the final payoff for the main experiment.
+</p>
+<hr>
+<p>
+    To make sure you fully understand how your decisions affect the outcome, please answer the following question.
+</p>
+<p>
+    Suppose that the Conventional Fund has a cumulative return of <b>87.3%</b>,
+    and the Sustainable Fund has a cumulative return of <b>57.2%</b>
+    (these values are based on the 10-period historical performance you saw at the beginning of the study.
+    Past performance is no guarantee of future results).
+</p>
+<p>
+    Suppose you allocate <b>{{ random_sus }}% of your gifted 100 ECUs to the Conventional Fund</b> and the rest <b>{{ random_con }}% to the Sustainable Fund</b>.
+    What is the cumulative return of your portfolio based on your allocation?
+</p>
+<p>
+    You can use the slider below (or directly enter the values in the input boxes) to set the allocation and see how the cumulative return is calculated for your portfolio.
+</p>
+
+<div class="add-a-frame">
+    <p style="font-size: large"><b>
+        Slider Tool
+    </b></p>
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <div class="slider-container" style="width: 80%;">
+            <label class="slider-label slider-label-left">Conventional Fund</label>
+            <input type="range" id="id_slider_tool" name="slider_tool" class="custom-slider"
+                   min="0" max="100" step="1" data-initial-value="0">
+            <label class="slider-label slider-label-right"></label>
+
+            <div for="id_slider_tool" class="slider-point slider-point-start"></div>
+            <div for="id_slider_tool" class="slider-point slider-point-end"></div>
+
+            <div class="slider-point-marker" style="left:100%;">
+                <span class="slider-label slider-label-right">Sustainable Fund</span>
+            </div>
+            <span id="slider_tool" class="slider-thumb-label" style="color: blue">Allocation: </span>
+        </div>
+    </div>
+    <p>When you allocate
+        <b><input type="number" id="input_conventional" min="0" max="100" step="1">% to the Conventional Fund</b>, and
+        <b><input type="number" id="input_sustainable" min="0" max="100" step="1">% to the Sustainable Fund</b>,
+        the cumulative return of your portfolio is calculated as a weighted average of the two funds' cumulative returns:
+    </p>
+    <p>
+        <b>Portfolio Cumulative Return =
+            (<span id="w_conventional" style="color: blue">Conventional Fund %</span> × 87.3%) +
+        (<span id="w_sustainable" style="color: blue">Sustainable Fund %</span> × 57.2%) =
+        <span id="portfolio_return_display" style="color: blue">– %</span></b>
+    </p>
+
+
+</div>
+<p>
+    Please enter the cumulative return of this portfolio (keeping one decimal): <input id="comprehension_input" type="number" min="0" max="100" step="0.1"> %
+    <br>
+    <span id="comprehension_feedback" style="color: red; font-weight: bold;"></span>
+    <br>
+</p>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary"> Next Page </button></center>
+
+
+<!--<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary">Next</button></center>-->
+<!-- Multi-pages settings -->
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+<script>
+    (function() {
+    const slidername = 'id_slider_tool';
+    const thumbname = 'slider_tool';
+
+    function updateThumbLabel() {
+        const slider = document.getElementById(slidername);
+        const thumbLabel = document.getElementById(thumbname);
+        const sliderValue = parseFloat(slider.value);
+
+        thumbLabel.textContent = `
+        Conventional fund: ${(100 - sliderValue).toFixed(0)}%;
+        Sustainable fund: ${sliderValue.toFixed(0)}%`;
+
+        const thumbPosition = ((sliderValue - slider.min) / (slider.max - slider.min)) * 100;
+        thumbLabel.style.left = `${thumbPosition}%`;
+        thumbLabel.style.transform = `translate(-50%)`;
+        thumbLabel.style.display = 'inline-block'; // show when updated
+    }
+
+    function revealInputsAndLabel() {
+        slider.classList.add('myclass1');
+        thumbLabel.style.display = 'inline-block';
+        sustainableInput.style.color = '#000';
+        conventionalInput.style.color = '#000';
+    }
+
+    function updateAllFromSustainable(value) {
+        const val = Math.min(100, Math.max(0, value));
+        sustainableInput.value = val;
+        conventionalInput.value = (100 - val).toFixed(0);
+        slider.value = val;
+
+        revealInputsAndLabel();
+        updateThumbLabel();
+        checkEnableButton();
+    }
+
+    function updateAllFromConventional(value) {
+        const val = Math.min(100, Math.max(0, value));
+        conventionalInput.value = val;
+        sustainableInput.value = (100 - val).toFixed(0);
+        slider.value = (100 - val);
+
+        revealInputsAndLabel();
+        updateThumbLabel();
+        checkEnableButton();
+    }
+
+    function checkEnableButton() {
+        const sVal = parseFloat(sustainableInput.value);
+        const cVal = parseFloat(conventionalInput.value);
+        const valid = (
+            !isNaN(sVal) && !isNaN(cVal) &&
+            sVal >= 0 && sVal <= 100 &&
+            cVal >= 0 && cVal <= 100 &&
+            Math.abs(sVal + cVal - 100) < 0.01
+        );
+        nextButton.disabled = !valid;
+    }
+
+
+    function updatePortfolioFormulaDisplay(cVal, sVal) {
+        const total = cVal + sVal;
+        const wCon = total > 0 ? cVal  : 0;
+        const wSus = total > 0 ? sVal  : 0;
+        // const wCon = 0;
+        // const wSus = 0;
+        const returnValue = wCon/100 * 87.3 + wSus/100 * 57.2;
+
+        document.getElementById('w_conventional').textContent = wCon + ' %';
+        document.getElementById('w_sustainable').textContent = wSus + ' %';
+        document.getElementById('portfolio_return_display').textContent = returnValue.toFixed(1) + ' %';
+    }
+    let slider, sustainableInput, conventionalInput, nextButton, thumbLabel;
+
+    window.addEventListener('DOMContentLoaded', function () {
+        slider = document.getElementById(slidername);
+        sustainableInput = document.getElementById('input_sustainable');
+        conventionalInput = document.getElementById('input_conventional');
+        nextButton = document.getElementById('next-button');
+        thumbLabel = document.getElementById(thumbname);
+
+        if (!slider || !sustainableInput || !conventionalInput || !nextButton || !thumbLabel) {
+            console.error("Missing one or more elements (slider, inputs, button, or thumb label).");
+            return;
+        }
+
+        // Hide thumb label and inputs initially
+        thumbLabel.style.display = 'none';
+        thumbLabel.style.position = 'absolute';
+        sustainableInput.value = '';
+        conventionalInput.value = '';
+        sustainableInput.style.color = 'transparent';
+        conventionalInput.style.color = 'transparent';
+
+        // Slider changes
+        slider.addEventListener('input', function () {
+            const val = parseFloat(slider.value);
+            updateAllFromSustainable(val);
+
+            const cVal = parseFloat(conventionalInput.value);
+            const sVal = parseFloat(sustainableInput.value);
+            updatePortfolioFormulaDisplay(cVal, sVal);
+        });
+
+        // Sustainable input changes
+        sustainableInput.addEventListener('input', function () {
+            const val = parseFloat(sustainableInput.value);
+            if (!isNaN(val)) {
+                updateAllFromSustainable(val);
+
+                const cVal = parseFloat(conventionalInput.value);
+                const sVal = parseFloat(sustainableInput.value);
+                updatePortfolioFormulaDisplay(cVal, sVal);
+            }
+        });
+
+        // Conventional input changes
+        conventionalInput.addEventListener('input', function () {
+            const val = parseFloat(conventionalInput.value);
+            if (!isNaN(val)) {
+                updateAllFromConventional(val);
+
+                const cVal = parseFloat(conventionalInput.value);
+                const sVal = parseFloat(sustainableInput.value);
+                updatePortfolioFormulaDisplay(cVal, sVal);
+            }
+        });
+    });
+})();
+(function() {
+    const correctValue = {{ correct_compre }};  // from vars_for_template
+    let attemptCount = 0;
+
+    document.getElementById('next-button').addEventListener('click', function (event) {
+        const inputField = document.getElementById('comprehension_input');
+        const feedback = document.getElementById('comprehension_feedback');
+        const userValue = parseFloat(inputField.value);
+
+        if (isNaN(userValue)) {
+            feedback.textContent = "Please enter a number.";
+            event.preventDefault();
+            return;
+        }
+
+        const tolerance = 0.1; // Accept range ±0.1 for float rounding
+        const isCorrect = Math.abs(userValue - correctValue) < tolerance;
+
+        if (!isCorrect) {
+            attemptCount += 1;
+            event.preventDefault();
+
+            if (attemptCount >= 2) {
+                const susAmount = {{ random_con }}; // This is Sustainable Fund amount from template
+                const conAmount = {{ random_sus }}; // This is Conventional Fund amount from template
+                const conReturn = 87.3;
+                const susReturn = 57.2;
+
+                const explanation = `
+                    <p>
+                        Here's the correct answer and calculation:
+                        <br>
+                        (${conAmount}% × ${conReturn}%) + (${susAmount}% × ${susReturn}%)
+                        = <b>${correctValue.toFixed(1)}%</b>
+                    </p>`;
+
+                feedback.innerHTML = explanation;
+                document.getElementById('next-button').disabled = false;
+            } else {
+                feedback.textContent = "Incorrect Answer. " +
+                    "Hint: Try clicking on the slider or typing in the input boxes to see how the formula below updates based on your allocation.";
+            }
+        } else {
+            feedback.textContent = "";
+            // Allow progression
+        }
+    });
+})();
+</script>
+{{ endblock }}

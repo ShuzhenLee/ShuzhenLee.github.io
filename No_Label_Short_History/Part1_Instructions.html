@@ -1,0 +1,54 @@
+{{ block title }}
+    Instruction
+{{ endblock }}
+
+{{ block content }}
+<p>
+    You will be presented with real historical data about the performance of two funds <u>over 45 periods</u>.
+    The details of the funds are as follows:
+</p>
+<div class="add-a-frame">
+    <b>Fund A</b>:
+    <p style="text-indent: 30px;">
+        This fund provides exposure to a selection of large U.S. companies spanning multiple industries.
+<!--        It is designed for investors seeking broad market exposure to well-established firms with strong market presence.-->
+        The fund aims to track the performance of a large-cap index, offering a low-cost, efficient way to invest in major companies.
+    </p>
+<br>
+    <b>Fund B</b>:
+    <p style="text-indent: 30px;">
+        This fund invests in a diversified portfolio of U.S. companies, aiming to achieve long-term financial performance.
+        It provides exposure to firms across various industries while maintaining risk-adjusted returns comparable to broad market benchmarks.
+<!--        The fund follows a structured approach to selecting companies based on specific inclusion criteria.-->
+    </p>
+</div>
+
+<p>
+    <b>Both funds are currently active in the financial market but have been anonymized for the purpose of the study</b>.
+    All data shown in this study represent real historical performance.
+</p>
+<!--<p>-->
+<!--    You will review fund performance over <b>10 periods</b>, including:-->
+<!--</p>-->
+<!--<p style="text-indent: 30px;">-->
+<!--    <i>Return by Period chart</i> showing returns of each period;-->
+<!--</p>-->
+<!--<p style="text-indent: 30px;">-->
+<!--    <i>Cumulative Return chart</i> showing how returns accumulate over time;-->
+<!--</p>-->
+<!--<p style="text-indent: 30px;">-->
+<!--    <i>Fund Performance table</i> summarizing key performance metrics.-->
+<!--</p>-->
+<p>
+    Click "Next Page" to answer a question first.
+</p>
+<br>
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" > Next Page </button></center>
+
+
+
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

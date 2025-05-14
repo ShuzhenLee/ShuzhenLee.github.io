@@ -1,0 +1,251 @@
+{{ block title }}
+    Your Investment (Period 1 - Period 9)
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js" xmlns="http://www.w3.org/1999/html"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+<link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+
+<form id="instruction-form" method="post">
+    <div id="instructions-container">
+        <div class="instruction-page">
+<!--            <p>-->
+<!--                Remember that we have two real funds:-->
+<!--            </p>-->
+<!--            <p>-->
+<!--                The <span style="color: #808080"><b>Conventional Fund</b></span> that prioritize diversification <b>without excluding controversial industries</b> such as tobacco, weapons, and fossil fuels.-->
+
+<!--                The <span style="color: green"><b>Sustainable Fund</b></span> which integrates <b>ESG</b> factors as a core focus of its investment strategy.-->
+<!--            </p>-->
+            <p>
+                <span style="color: blue"><b>Your portfolio</b></span> is made up by
+                <span style="color: #808080"><b>{{ con_decision0 }}% of the Conventional Fund</b></span>
+                and <span style="color: green"><b>{{ decision0 }}% of the Sustainable Fund</b></span>
+                for the first 9 periods.
+            </p>
+            <div class = "add-a-frame">
+                <p>
+                    The <i>Returns by Period</i> chart below displays the historical performance across periods.
+                    The chart below and the table in the top-right corner update automatically in a fixed speed.
+                </p>
+
+                <!-- New elements for the incremental update chart -->
+                <div id="chart-container" style="position: relative; width: 100%;">
+                    <div id="newContainer" class="chart-container" style="width: 100%; height: 500px;"></div> <!-- New container for the chart -->
+                    <div id="UpDownTable" style="position: absolute; top: 10px; right: 0px; z-index: 2; background-color: white; padding: 3px; display: none;"></div>
+                </div>
+
+                <div id="average-return" style="display: none">
+                    <p><b>Average Returns Per Period of the Past 9 Periods:</b></p>
+                    <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 14px;">
+                        <tr style="background-color: #f9f9f9;">
+                            <th style="padding: 5px; border: 1px solid #cecbcb; font-weight: bold;">Conventional Fund</th>
+                            <th style="padding: 5px; border: 1px solid #cecbcb; font-weight: bold;">Sustainable Fund</th>
+                            <th style="padding: 5px; border: 1px solid #cecbcb; font-weight: bold;">Your Portfolio</th>
+                        </tr>
+                        <tr style="background-color: #ffffff;">
+                            <td style="padding: 5px; border: 1px solid #cecbcb;"><b>{{ player.average_return_con1 }}</b>%</td>
+                            <td style="padding: 5px; border: 1px solid #cecbcb;"><b>{{ player.average_return_sus1 }}</b>%</td>
+                            <td style="padding: 5px; border: 1px solid #cecbcb;"><b>{{ player.average_return_portfolio1 }}</b>%</td>
+                        </tr>
+                    </table>
+                <p>
+                    After reviewing the <i>Returns by Period</i> chart and the average returns,
+                    you can click the button below to reveal the <i>Cumulative Return</i> chart on the next page.
+                </p>
+            </div>
+            </div>
+        </div>
+
+
+        <div class="instruction-page">
+            <div class = "add-a-frame">
+                <p>
+                    The <i>Cumulative Return </i> chart below illustrates how the total returns of
+                    the two funds and your portfolio have accumulated <u>up to Period 9</u>.
+                </p>
+            <div id="cumulative_chart">
+                <div class="chart-container" id="cumu_1_Container"></div>
+            </div>
+            </div>
+            <P>
+                After reviewing the <i>Cumulative Return</i> chart,
+                you can click the "Next Page" button to reveal the <i>projected cumulative returns</i>.
+            </P>
+            <br>
+        </div>
+
+
+        <div class="instruction-page">
+            <div class = "add-a-frame">
+                <font size="4"><b>
+                    Projected Cumulative Return
+                </b></font>
+                <br>
+                <br>
+                <p>
+                    Projected cumulative return estimates the potential cumulative performance of an investment
+                    by <b>assuming that the average returns observed in the past 9 periods will persist throughout the remaining periods</b>.
+                    This projection provides a hypothetical outlook based on the assumption that
+                    historical patterns from the revealed data will continue unchanged until the end of the 45 periods.
+                </p>
+                <p><b>Projected Cumulative Return Based on the Average Return of Past 9 Periods: </b></p>
+                    <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 14px;">
+                        <tr style="background-color: #f9f9f9;">
+                            <th style="padding: 5px; border: 1px solid #cecbcb; font-weight: bold;">Conventional Fund</th>
+                            <th style="padding: 5px; border: 1px solid #cecbcb; font-weight: bold;">Sustainable Fund</th>
+                            <th style="padding: 5px; border: 1px solid #cecbcb; font-weight: bold;">Your Portfolio</th>
+                        </tr>
+                        <tr style="background-color: #ffffff;">
+                            <td style="padding: 5px; border: 1px solid #cecbcb;"><b>{{ player.projected_return_con1}}</b>%</td>
+                            <td style="padding: 5px; border: 1px solid #cecbcb;"><b>{{ player.projected_return_sus1 }}</b>%</td>
+                            <td style="padding: 5px; border: 1px solid #cecbcb;"><b>{{ player.projected_return_portfolio1 }}</b>%</td>
+                        </tr>
+                    </table>
+                <p><i>
+                    Note: The first two columns show the projected return if you had invested entirely in the Conventional or Sustainable Fund, based on the average returns.
+                </i></p>
+            </div>
+            <p>
+                You can check the glossary for the definitions of the key terms if you need. <button type="button" id="custom-button" class="custom-button">Glossary</button>
+            </p>
+                <div id="chart-introduction" style="display: none;">
+                    <div class="add-a-frame">
+                        <p>
+                            <b>Return</b>: The percentage change of the value of an investment in one period from the previous period.
+
+                            It measures how much an investment has increased or decreased in value.
+                        </p>
+                        <p>
+                        <b>Cumulative Return</b>:
+                            The total percentage change in the fund’s value over 9 periods.
+                            Higher values indicate greater overall growth.
+                        </p>
+                        <p>
+                            <b>Average Return</b>:
+                            The average periodic return of the fund over 9 periods.
+                            Positive values reflect average growth, while negative values indicate average losses.
+                        </p>
+                    </div>
+                </div>
+            <p>
+                Above are the charts and information for the first 9 periods (Period 1 - Period 9).
+                Now, you can click the "Next Page" button to proceed to adjust your initial investment decision.
+            </p>
+        </div>
+
+
+        <div class="instruction-page">
+            <div id="decision_slider">
+                <p>
+                    In your initial investment decision,
+                    <b>you allocated {{con_decision0}}% to the Conventional Fund, and {{decision0}}% to the Sustainable Fund</b>,
+                    as indicated on the slider (<i>Your Last Allocation</i>).
+                    Now you have an opportunity to adjust your allocation.
+                </p>
+
+
+                <div class="add-a-frame">
+                    <p>You decide to allocate:
+                        <input type="number" id="input_conventional" min="0" max="100" step="1"> % to the Conventional Fund, and
+                        <input type="number" id="input_sustainable" min="0" max="100" step="1"> % to the Sustainable Fund
+                    </p>
+
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <div class="slider-container" style="position: relative; width: 80%;">
+                            <label class="slider-label slider-label-left">Conventional Fund</label>
+                            <input type="range" id="id_decision_P1" name="decision1" class="custom-slider"
+                                   min="0" max="100" step="1" data-initial-value="{{ decision0 }}">
+                            <label class="slider-label slider-label-right"></label>
+
+                            <!-- Last Allocation -->
+                            <div class="slider-edge-bar slider-last-bar" style="position: absolute; font-size: 11px; white-space: nowrap;">
+                                <span class="edge-bar-label">Your Last Allocation<br>
+                                    (Conventional Fund: {{con_decision0}}%;<br>
+                                    Sustainable Fund: {{decision0}}%)</span>
+                            </div>
+                            <div class="slider-point slider-point-start"></div>
+                            <div class="slider-point slider-point-end"></div>
+
+                            <div class="slider-point-marker" style="left: 100%;">
+                                <span class="slider-label slider-label-right">Sustainable Fund</span>
+                            </div>
+                            <span id="decision_P1" class="slider-thumb-label" style="color: blue">Allocation: </span>
+                        </div>
+                    </div>
+                    <br>
+
+                </div>
+                </div>
+
+            <p>
+                You can click the "Next Page" button to proceed to the next 9 periods (Period 10 - Period 18).
+            </p>
+        </div>
+        <div class="button-container"><center>
+            <button type="button" id="prev-button">Previous Page</button>
+            <button type="button" id="next-button" class="otree-btn-next btn btn-primary" disabled>Next Page</button>
+        </center></div>
+
+    </div>
+</form>
+
+
+<script src="{% static 'js/slider_decision1.js' %}"></script>
+
+<div id="data-container" data-decision0="{{ decision0 }}"></div>
+
+<script>
+    // Pass data from Python to JavaScript
+    window.chartData = {
+        susData: {{ sus_data }},
+        conData: {{ con_data }},
+        portData: {{ port_data }}
+    };
+    window.CumulativeDataEveryPeriod = {
+        TRSusData: {{TR_sus_data | safe }},
+        TRConData: {{ TR_con_data | safe }},
+        TRPortData: {{ TR_port_data | safe }}
+    };
+
+    window.summaryData = {{ summaryData | safe }};
+    window.projectionData = {
+        susProj: {{ projections_sus | safe }},
+        conProj: {{ projections_con | safe }},
+        portProj: {{ projections_port | safe }}
+    };
+</script>
+<script>
+    // Function to toggle visibility and update button text
+    function toggleVisibility(buttonId, contentId, showText, hideText) {
+        document.getElementById(buttonId).addEventListener('click', function () {
+            const contentDiv = document.getElementById(contentId);
+            const button = this;
+            if (contentDiv.style.display === 'none') {
+                contentDiv.style.display = 'block';
+                button.textContent = hideText;
+            } else {
+                contentDiv.style.display = 'none';
+                button.textContent = showText;
+            }
+        });
+    }
+    // Apply toggle functionality to each button-content pair
+    toggleVisibility('custom-button', 'chart-introduction', 'Glossary', 'Hide Glossary');
+
+</script>
+<script src="{% static 'js/real_investment.js' %}"></script>
+<!-- Multi-pages settings -->
+<script src="{% static 'js/Multipages.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+
+
+
+{{ endblock }}

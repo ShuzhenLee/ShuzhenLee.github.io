@@ -1,0 +1,67 @@
+{{ block title }}
+    Payoff
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+
+<br>
+<p>
+    Thank you for participating in the study. Your final payoff is shown below.
+</p>
+{% if selected_stage == 4 %}
+    <p>Your payoff of the main study is based on the cumulative return from <i>Stage 4</i>,
+        where you are given a new opportunity to make an allocation decision.
+    </p>
+    <p style="text-indent: 30px;">
+        Your payoff from the investment decision in <i>Stage 4</i> is: {{ invest_payoff }} GBPs.
+    </p>
+    <p style="text-indent: 30px;">
+        Your bonuses from correctly estimating the average returns are: {{ belief_bonus }} GBPs.
+    </p>
+    <p style="text-indent: 30px;">
+        Your bonuses from correctly answering the survey questions are: {{ gbp_payment }} GBPs.
+    </p>
+    <p>
+        Your total payment of this study is: <strong>{{ player.all_payoff }} GBPs</strong> (including the £1.5 completion fee).
+    </p>
+    {% if not no_donation %}
+        <p>
+            The donation to the environmental organization you preferred is: <strong>{{ final_donation }} GBPs</strong>.
+        </p>
+    {% endif %}
+{% else %}
+
+    <p>
+        Your payoff of the main study is calculated based on the cumulative return from <i>Stage 3</i>,
+        where you made a series of allocation decisions.
+    </p>
+    <p style="text-indent: 30px;">
+        Your payoff from the investment decision in <i>Stage 3</i> is: {{ invest_payoff }} GBPs.
+    </p>
+    <p style="text-indent: 30px;">
+        Your bonuses from correctly estimating the average returns are: {{ belief_bonus }} GBPs.
+    </p>
+    <p style="text-indent: 30px;">
+        Your bonuses from correctly answering the survey questions are: {{ gbp_payment }} GBPs.
+    </p>
+    <p>
+        Your total payment of this study is: <strong>{{ player.all_payoff }} GBPs</strong> (including the £1.5 completion fee).
+    </p>
+    {% if not no_donation %}
+        <p>
+            The donation to the environmental organization you preferred is: <strong>{{ final_donation }} GBPs</strong>.
+        </p>
+    {% endif %}
+{% endif %}
+
+<p>
+    Please click the "Next" button to redirect to the completion page.
+</p>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" > Next </button></center>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

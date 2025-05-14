@@ -1,0 +1,23 @@
+{{ block title }}
+Redirecting...
+{{ endblock }}
+
+{{ block content }}
+<p>
+    Thank you for participating in this study!
+    You will receive your payment within 21 days.
+    Please wait, you are being redirected to completion page.
+</p>
+
+<script>
+        // Redirect after a delay of 1000 milliseconds (1 second)
+        // need to add a completion link here
+        setTimeout(function() {
+            window.location.href = "https://app.prolific.com/submissions/complete?cc=C1307LR1";
+        }, 1000);
+</script>
+
+{{ endblock }}
+
+
+

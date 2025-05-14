@@ -1,0 +1,184 @@
+{{ block title }}
+    Investment Plan Selection
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    We have now concluded the stage where a demo account was provided.
+    In that stage, we offered you a hypothetical opportunity to adjust your portfolio after seeing its performance.
+    Thus, you have experienced the performance of your portfolio with or without the opportunity to make interim adjustments of the portfolio.
+</p>
+<p>
+    Soon, you will move on to the next investment stage, where you will invest for real.
+    At this stage, you can choose between <b>two investment plans</b>:
+</p>
+<p style="text-indent: 30px;"><b>1. Fixed Plan</b>:
+    You make an initial investment decision, and your portfolio remains unchanged for the next 45 periods.
+</p>
+<p style="text-indent: 30px;"><b>2. Adjustable Plan</b>:
+    You make an initial investment decision, and you will have the opportunity to adjust your portfolio every 9 periods.
+</p>
+<p>
+    The default plan is the Adjustable Plan.
+    If you prefer the Fixed Plan, you need to pay for it. We will give you 50 pence for this purpose.
+    You can choose to pay any price between 0 and 50 pence, the rest is yours to keep.
+    The higher your price is, the more likely you will receive the Fixed Plan.
+    If you pay 50 pence, you will receive the Fixed Plan with certainty.
+    If you pay 0 pence, you will receive the Adjustable Plan with certainty.
+    You will only be charged if you get the Fixed Plan.
+    <button id="custom-button" type="button" class="custom-button">More Detail About the Procedure</button>
+</p>
+<div id="wtp_detail" class="add-a-frame" style="display: none;">
+    <p>
+        You are given an additional 50 pence for the plan selection.
+        To determine which plan you will follow,
+        you need to state how much you are <b>willing to pay (between 0 and 50 pence) for the Fixed Plan</b>.
+        After you submit your choice, a <b>random price</b> within this range will be selected.
+    </p>
+
+    <p style="text-indent: 30px;">
+        If <b>your stated price is equal to or higher</b> than the randomly selected price,
+        you will follow the <b>Fixed Plan</b>, and the amount you stated will be deducted from your final payment.
+    </p>
+    <p style="text-indent: 30px;">
+        If <b>your stated price is lower</b> than the randomly selected price,
+        you will follow the <b>Adjustable Plan</b>, and no amount will be deducted.
+    </p>
+</div>
+<br>
+
+<p>
+    Please use the slider below to indicate your willingness to pay for the Fixed Plan.
+</p>
+
+<br>
+
+<div class="slider-container">
+    <label class="slider-label slider-label-left">0 pence</label>
+    <input type="range" id="id_wtp" name="wtp" class="custom-slider"
+           min="0" max="50" value="0" oninput="updateSlider(this)">
+    <label class="slider-label slider-label-right">50 pence</label>
+    <span id="slider-value" class="slider-thumb-label">0 pence</span>
+</div>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary" disabled> Next Page </button></center>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+<style>
+    .slider-container {
+        position: relative;
+        width: 50%;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .custom-slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(to right, blue 0%, gray 0%);
+        outline: none;
+        border-radius: 5px;
+        transition: background 0.2s;
+    }
+
+    /* Thumb (slider handle) */
+    .custom-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        background: white;
+        border: 2px solid black;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .custom-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        background: white;
+        border: 2px solid black;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    /* Slider Labels */
+    .slider-label {
+        position: absolute;
+        top: 30px;
+        font-size: 16px;
+    }
+
+    .slider-label-left {
+        left: 0;
+    }
+
+    .slider-label-right {
+        right: 0;
+    }
+
+    /* Slider Thumb Label */
+    .slider-thumb-label {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 4px 8px;
+        border-radius: 5px;
+        border: 1px solid black;
+        font-size: 14px;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    function updateSlider(slider) {
+        let value = slider.value;
+        let percentage = (value / 50) * 100;
+
+        // Update background gradient dynamically
+        slider.style.background = `linear-gradient(to right, blue ${percentage}%, gray ${percentage}%)`;
+
+        // Update slider value display
+        let sliderValue = document.getElementById("slider-value");
+        sliderValue.textContent = value + " pence";
+
+        // Move label with the thumb
+        let sliderRect = slider.getBoundingClientRect();
+        let thumbPosition = (percentage / 100) * sliderRect.width;
+        sliderValue.style.left = `${thumbPosition}px`;
+
+        // Enable the Next button when the slider is moved
+        document.getElementById("next-button").disabled = false;
+    }
+
+    // Ensure the Next button starts disabled
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("next-button").disabled = true;
+    });
+</script>
+
+<script>
+    // Function to toggle visibility and update button text
+    function toggleVisibility(buttonId, contentId, showText, hideText) {
+        document.getElementById(buttonId).addEventListener('click', function () {
+            const contentDiv = document.getElementById(contentId);
+            const button = this;
+            if (contentDiv.style.display === 'none') {
+                contentDiv.style.display = 'block';
+                button.textContent = hideText;
+            } else {
+                contentDiv.style.display = 'none';
+                button.textContent = showText;
+            }
+        });
+    }
+
+    // Apply toggle functionality to each button-content pair
+    toggleVisibility('custom-button', 'wtp_detail', 'More Detail About the Procedure', 'Hide Procedure');
+</script>
+
+
+{{ endblock }}

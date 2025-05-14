@@ -1,0 +1,34 @@
+{{ block title }}
+    Your Preferred Environmental Organization
+{{ endblock }}
+{{ block content }}
+<p>
+    Now, we ask you to select your most preferred environmental organization from the options below—the one whose cause you support the most.
+    Several decisions in this study may involve donations to the environmental organization you choose.
+</p>
+<p>
+    (1) <b>World Wide Fund for Nature(WWF-UK)</b>:
+    WWF’s mission is to stop the degradation of the planet’s natural environment and to build a future in which humans live in harmony with nature,
+    by conserving the world’s biological diversity,
+    ensuring that the use of renewable natural resources is sustainable, and promoting the reduction of pollution and wasteful consumption.
+    <br>
+    <br>
+    (2) <b>The Woodland Trust</b>:
+    The Woodland Trust is the largest woodland conservation environmental organization in the United Kingdom.
+    It fights to protect woods and trees, preventing the loss of irreplaceable habitat, nature and carbon stores for a healthier future for everyone.
+    <br>
+    <br>
+    (3) <b>BirdLife International (headquartered in Cambridge)</b>:
+    Its mission is to conserve birds, their habitats and global biodiversity, working with people toward sustainability in the use of natural resources.
+</p>
+<br>
+<div class="add-a-frame">
+    {{ formfield player.green_charity }}
+</div>
+<br>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary"> Next </button></center>
+
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+
+{{ endblock }}

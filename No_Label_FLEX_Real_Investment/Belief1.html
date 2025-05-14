@@ -1,0 +1,96 @@
+{{ block title }}
+    Your Opinion
+{{ endblock }}
+{{ block content }}
+<script src="https://code.highcharts.com/highcharts.js" xmlns="http://www.w3.org/1999/html"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/chart_styles.css' %}" />
+<link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+
+
+<p>
+    Before you begin your investment in this stage, we would like to know your opinion on the two funds.
+    Please estimate the <b>average return per period</b> for the following 45 periods for both funds.
+<!--    If your estimation falls within ±5% of the actual average return, you will receive an additional 50-pence bonus.-->
+</p>
+<p>
+    Below is the performance summary of the two funds for the past 45 periods in Stage 1 you may refer to when making your estimation.
+</p>
+<div class="add-a-frame">
+    <strong>Fund Performance Summary</strong>
+    <table class="performance-table" border="1" cellpadding="5" cellspacing="0" style="width:100%; text-align:center; margin-top: 10px;">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Fund A</th>
+                <th>Fund B</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Cumulative Return</strong></td>
+                <td>7935.86%</td>
+                <td>6202.29%</td>
+            </tr>
+            <tr>
+                <td><strong>Average Return Per Period</strong></td>
+                <td>10.36%</td>
+                <td>9.77%</td>
+            </tr>
+            <tr>
+                <td><strong>Volatility</strong></td>
+                <td>5.26%</td>
+                <td>5.27%</td>
+            </tr>
+            <tr>
+                <td><strong>Sharpe Ratio</strong></td>
+                <td>1.55</td>
+                <td>1.44</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    I estimate the <u>Average Return Per Period</u> for the following 45 periods of Fund A to be:
+    <input type="number" id="est_con_1" name="est_con_1" step="0.01" style="width: 80px; text-align: center;" required> <span>%</span>
+</p>
+<p>
+    I estimate the <u>Average Return Per Period</u> for the following 45 periods of Fund B to be:
+    <input type="number" id="est_sus_1" name="est_sus_1" step="0.01" style="width: 80px; text-align: center;" required> <span>%</span>
+</p>
+<p>
+    Click the "Next" button to make your investments.
+</p>
+
+<center><button id="next-button" type="submit" class="otree-btn-next btn btn-primary"> Next </button></center>
+<link rel="stylesheet" href="{% static 'css/Multipages_style.css' %}" />
+<style>
+    table.performance-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 14px; /* Adjust font size */
+        line-height: 1.2; /* Reduce line spacing */
+    }
+
+    table.performance-table th, table.performance-table td {
+        border: 1px solid #ddd;
+        padding: 6px; /* Reduce padding to make rows more compact */
+        text-align: center;
+    }
+
+    table.performance-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+</style>
+
+
+
+{{ endblock }}

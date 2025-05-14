@@ -1,0 +1,91 @@
+{{ block title }}
+    Survey
+{{ endblock }}
+
+{{ block content }}
+<br>
+<div class="question">
+    {{ formfield player.age }}
+
+    {{ formfield player.gender }}
+
+    {{ formfield player.employment }}
+
+    {{ formfield player.education }}
+
+    {{ formfield player.income }}
+ {{ formfield player.investment }}
+<!--    <p>Do you have any investments in the stock market or other financial markets?</p>-->
+<!--    <label>-->
+<!--        <input type="radio" id="investment_yes" name="investment" value="1" onclick="toggleInvestmentAmount(true)"> <b>Yes</b>-->
+<!--    </label>-->
+<!--    <br>-->
+<!--    <label>-->
+<!--        <input type="radio" id="investment_no" name="investment" value="0" onclick="toggleInvestmentAmount(false)"> <b>No</b>-->
+<!--    </label>-->
+
+    <!-- Investment amount input shown conditionally -->
+    <div style="display:none;" id="investment_amount">
+        {{ formfield player.investment_amount }}
+    </div>
+
+</div>
+
+</div>
+
+
+
+<br>
+<center>
+    <button id="next-button" type="submit" class="btn btn-primary">Next</button>
+</center>
+<script>
+    // Function to toggle investment amount field based on dropdown selection
+    document.addEventListener('DOMContentLoaded', function () {
+        const investmentDropdown = document.querySelector('[name="investment"]');
+        const investmentAmountContainer = document.getElementById('investment_amount');
+        const investmentAmountInput = document.querySelector('#investment_amount input');
+
+        investmentDropdown.addEventListener('change', function () {
+            if (investmentDropdown.value === 'Yes') {
+                investmentAmountContainer.style.display = 'block';
+                investmentAmountInput.required = true; // Make input required
+            } else {
+                investmentAmountContainer.style.display = 'none';
+                investmentAmountInput.required = false; // Remove required attribute
+                investmentAmountInput.value = ''; // Clear the input value
+            }
+        });
+    });
+</script>
+<style>
+    #next-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 0 20px;
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    #next-button:hover {
+        background-color: blue;
+        color: white;
+    }
+
+    .question {
+        border: 1px solid #ddd; /* Adds a light border around each question */
+        padding: 15px; /* Adds some padding inside the border */
+        margin-bottom: 20px; /* Adds space between questions */
+        border-radius: 10px; /* Rounds  the corners of the border */
+        background-color: #f9f9f9; /* Light background color for each question */
+    }
+    .question p {
+        margin-bottom: 10px; /* Reduces space between the question text and options */
+    }
+</style>
+
+{{ endblock }}
